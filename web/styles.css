@@ -1,0 +1,6 @@
+body{font-family:system-ui,Segoe UI,Arial,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem}
+section{margin:2rem 0}
+form{display:flex;flex-direction:column;gap:.5rem}
+input,textarea,button{font-size:1rem;padding:.5rem}
+button{cursor:pointer}
+
