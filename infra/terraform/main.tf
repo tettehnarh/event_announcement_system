@@ -82,6 +82,9 @@ resource "aws_cloudfront_distribution" "web" {
     forwarded_values {
       query_string = true
       headers      = ["Origin"]
+      cookies {
+        forward = "none"
+      }
     }
   }
 
@@ -390,7 +393,12 @@ resource "aws_api_gateway_deployment" "api" {
     aws_api_gateway_integration.subscribe_options
   ]
   rest_api_id = aws_api_gateway_rest_api.api.id
-  stage_name  = var.env
+}
+
+resource "aws_api_gateway_stage" "stage" {
+  rest_api_id  = aws_api_gateway_rest_api.api.id
+  deployment_id = aws_api_gateway_deployment.api.id
+  stage_name   = var.env
 }
 
 # Permissions for API Gateway to invoke Lambdas
