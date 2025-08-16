@@ -59,8 +59,15 @@ def handler(event, context):
 
         s3.put_object(Bucket=DATA_BUCKET, Key=EVENTS_KEY, Body=json.dumps(data), ContentType='application/json')
 
-        # Publish SNS notification (subject + content)
-        message = EMAIL_CONTENT
+        # Publish SNS notification (subject + event details)
+        message_lines = [
+            "New Event Created:",
+            f"Title: {new_event['title']}",
+            f"Date: {new_event['date']}",
+            f"Location: {new_event['location']}",
+            f"Description: {new_event['description']}"
+        ]
+        message = "\n".join(message_lines)
         sns.publish(TopicArn=TOPIC_ARN, Subject=EMAIL_SUBJECT, Message=message)
 
         return _response(201, {"message": "Event created", "event": new_event})
